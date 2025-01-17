@@ -24,7 +24,11 @@ public class Card extends Actor
     {
         RED, GREEN, BLUE, NO_COLOR;
     }
-   
+    public Card()
+    {
+        
+    }
+    
     public Card(Shape shape, Color color, int numberOfShapes, int shading, GreenfootImage cardImage, GreenfootImage selectedCardImage) 
     {
         this.shape = shape;                    
