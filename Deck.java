@@ -61,16 +61,7 @@ public class Deck
             return 81;  
         }
     }
-
-    private void populateUnShuffledDeckWithCards(int numOfCardsInDeck)
-    {
-        for (int i = 0; i < numOfCardsInDeck; i++)
-        {
-            unShuffledDeck[i] = new Card(); 
-        }
-        unShuffledDeck[numOfCardsInDeck] = new Card();  
-    }
-
+    
     private void createShuffledDeck() 
     {
         shuffledDeck.clear();  
@@ -85,7 +76,7 @@ public class Deck
     
     
     
-      
+    
     private void populateUnshuffledDeckWithCards(int numOfCardsInDeck)        
     {
         unShuffledDeck[0] = new Card(Card.Shape.NO_SHAPE, Card.Color.NO_COLOR,0,0,
@@ -201,7 +192,7 @@ public class Deck
             unShuffledDeck[36] = new Card(Card.Shape.CIRCLE, Card.Color.RED,3,1,
                     new GreenfootImage("Triplets_1/circle_red_3_1.png"), 
                     new GreenfootImage("Triplets_1/circle_red_3_1_selected.png"));
-             unShuffledDeck[37] = new Card(Card.Shape.SQUARE, Card.Color.BLUE,1,1,
+            unShuffledDeck[37] = new Card(Card.Shape.SQUARE, Card.Color.BLUE,1,1,
                     new GreenfootImage("Triplets_1/square_blue_1_1.png"), 
                     new GreenfootImage("Triplets_1/square_blue_1_1_selected.png"));
             unShuffledDeck[38] = new Card(Card.Shape.SQUARE, Card.Color.BLUE,2,1,

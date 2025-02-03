@@ -12,10 +12,16 @@ public class GameBoard extends World
     
     public GameBoard()
     {   
+        
         super(430, 600, 1, false); 
+        
         new Tester();
         new Tester(NUM_CARDS_IN_DECK);
+        
+        Dealer dealer = new Dealer(NUM_CARDS_IN_DECK);
+        addObject(dealer, -30, -30);
+        
+        Player player = new Player(dealer);
+        addObject(player, -30, -30);
     }
-    
-
 }
