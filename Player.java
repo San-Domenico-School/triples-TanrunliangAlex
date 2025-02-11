@@ -1,93 +1,92 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 import java.util.ArrayList;
+import java.util.Arrays;
 /**
- * Write a description of class Player here.
+ * Write a description of class player here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author (Alex) 
+ * @version (1/30/2025)
  */
-
-
-
 public class Player extends Actor
 {
-    private Dealer dealer; 
-    private Card[] cardsSelected = new Card[3]; 
+    /**
+     * Act - do whatever the Player wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    
+    private Dealer dealer;
+    private Card[] cardsSelected; 
     private ArrayList<Card> cardsOnBoard; 
     private ArrayList<Integer> selectedCardsIndex; 
     
-    public Player(Dealer dealer) 
+    public Player(Dealer dealer)
     {
-        this.dealer = dealer;
-        this.cardsSelected = new Card[3]; 
-        this.cardsOnBoard = new ArrayList<Card>(); 
-        this.selectedCardsIndex = new ArrayList<Integer>(); 
+        this.dealer = dealer; 
+        cardsOnBoard = new ArrayList<Card>(); 
+        selectedCardsIndex = new ArrayList<Integer>(); 
+        cardsSelected = new Card[3];
+    }
+    
+    public void act()
+    {
+        selectCards(); 
+        if(threeCardsSelected())
+        {
+            dealer.checkIfTriple(cardsOnBoard, cardsSelected, selectedCardsIndex);
+            resetCardsSelected();
+        }
     }
     
     public void addedToWorld(World world)
     {
-        cardsOnBoard = (ArrayList) getWorld().getObjects(Card.class);
-    }
-    
-    private void selectCards()
-    {
-        for(int i = 0; i < cardsOnBoard.size(); i++)
-        {
-            if(Greenfoot.mouseClicked(cardsOnBoard.get(i)))
-            {
-                 Card card = cardsOnBoard.get(i);
-                 
-                 if(card.getIsSelected())
-                 {
-                     card.setIsSelected(false);
-                     card.setImage(card.getCardImage());
-                     selectedCardsIndex.remove((Integer) i);
-                 }
-                 else
-                 {
-                     card.setIsSelected(true);
-                     card.setImage("Triplets_0/blank_0_0_0.png");
-                     selectedCardsIndex.add(i);
-                 }
-            }
-        }
+        cardsOnBoard = (ArrayList) world.getObjects(Card.class);
     }
     
     private void resetCardsSelected()
     {
-            for (int i = 0; i < cardsOnBoard.size(); i++) 
-            {
-                Card card = cardsOnBoard.get(i);
-                card.setIsSelected(false);  
-                card.setImage(card.getCardImage());
+          for(int i = 0; i < cardsOnBoard.size(); i++)
+          {
+                cardsOnBoard.get(i).setImage(cardsOnBoard.get(i).getCardImage());
+                cardsOnBoard.get(i).setIsSelected(false);
+          }
+          selectedCardsIndex.clear();
+    }    
+    
+    private boolean threeCardsSelected()
+    {
+         if(selectedCardsIndex.size() == 3)
+         {
+               cardsSelected[0] = cardsOnBoard.get(selectedCardsIndex.get(0));
+               cardsSelected[1] = cardsOnBoard.get(selectedCardsIndex.get(1)); 
+               cardsSelected[2] = cardsOnBoard.get(selectedCardsIndex.get(2));
+               return true;
+         }
+         else
+         {
+              return false;
+         }
+    }    
+    
+    private void selectCards()
+    {
+           for(int i = 0; i < cardsOnBoard.size(); i++)
+           {
+                  if(Greenfoot.mouseClicked(cardsOnBoard.get(i)))
+                 {
+                         if(cardsOnBoard.get(i).getIsSelected())
+                         {
+                              cardsOnBoard.get(i).setIsSelected(false);
+                              cardsOnBoard.get(i).setImage(cardsOnBoard.get(i).getCardImage());
+                              selectedCardsIndex.remove(new Integer(i));
+                         }
+                         else
+                         {
+                               cardsOnBoard.get(i).setIsSelected(true);
+                               cardsOnBoard.get(i).setImage(cardsOnBoard.get(i).getSelectedCardImage());
+                               selectedCardsIndex.add(new Integer(i));
+                         }
+                  }
             }
-            selectedCardsIndex.clear(); 
     }
     
-    private boolean setCardsSelected()
-    {
-        if (selectedCardsIndex.size() == 3)
-        {
-            for (int i = 0; i < selectedCardsIndex.size(); i++) 
-            {
-                int index = selectedCardsIndex.get(i);
-                cardsSelected[i] = cardsOnBoard.get(index); 
-            }
-            return true;
-        }
-        return false;
-    }
-    
-    public void act() 
-    {
-        selectCards();
-        boolean threeCardsHaveBeenSelected = setCardsSelected();
-        
-        if (threeCardsHaveBeenSelected) 
-        {
-            dealer.setCardsSelected(cardsOnBoard, selectedCardsIndex, cardsSelected);
-            dealer.checkIfTriple();
-            resetCardsSelected();
-        }
-    }
 }
